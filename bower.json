@@ -10,7 +10,7 @@
     "page": "visionmedia/page.js#~1.6.3"
   },
   "devDependencies": {
-    "web-component-tester": "*",
-    "test-fixture": "PolymerElements/test-fixture#^1.0.0"
+    "web-component-tester": "*"
+    
   }
 }
