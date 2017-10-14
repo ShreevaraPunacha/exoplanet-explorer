@@ -53,7 +53,7 @@ Instructions:
   window.addEventListener('WebComponentsReady', function() {
     home = document.querySelector('section[data-route="home"]');
     
-    get('../data/earth-like-results.json')
+    get('../dat/earth-like-results.json')
     .then(function(response){
       addSearchHeader(response);
     })
