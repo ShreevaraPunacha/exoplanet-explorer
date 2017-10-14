@@ -59,16 +59,9 @@ function getJSON(url){
     
     getJSON('../data/earth-like-results.json')
     .then(function(response){
-      addSearchHeader(response.query);
-      return getJSON(response.results[1]);
-    })
-    .catch(function(){
-      throw Error('search request error');
-    })
-    .then(createPlanetThumb)
-    .catch(function(error){
-      addSearchHeader('unknown');
-      console.log(error);
+      response.results.forEach(function(url){
+        getJSON(url).then(createPlanetThumb);
+      });
     });
   });
 })(document);
