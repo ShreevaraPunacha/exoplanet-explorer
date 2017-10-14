@@ -27,6 +27,13 @@ Instructions:
     home.innerHTML = '<h2 class="page-title">query: ' + response + '</h2>';
   }
 
+  function createPlanetThumb(data) {
+    var pT = document.createElement('planet-thumb');
+    for (var d in data) {
+      pT[d] = data[d];
+    }
+    home.appendChild(pT);
+  }
   /**
    * XHR wrapped in a promise.
    * @param  {String} url - The URL to fetch.
@@ -53,12 +60,12 @@ function getJSON(url){
     getJSON('../data/earth-like-results.json')
     .then(function(response){
       addSearchHeader(response.query);
-      console.log(response);
-      return response.results[1];
+      return getJSON(response.results[1]);
     })
-    .then(function(abcd){
-      console.log(abcd);
+    .catch(function(){
+      throw Error('search request error');
     })
+    .then(createPlanetThumb)
     .catch(function(error){
       addSearchHeader('unknown');
       console.log(error);
