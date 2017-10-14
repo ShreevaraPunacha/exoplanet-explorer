@@ -59,10 +59,12 @@ function getJSON(url){
     
     getJSON('../data/earth-like-results.json')
     .then(function(response){
-      var sequence = Promise.resolve();
-      response.results.map(function(url){
-        getJSON(url).then(createPlanetThumb);
-        });
+      return Promise.all(response.results.map(getJSON));
+    })
+    .then(function(arrayOfPlanetData){
+      arrayOfPlanetData.forEach(function(planet){
+        createPlanetThumb(planet);
+      });
     })
    .catch(function(error){
       console.log(error);
