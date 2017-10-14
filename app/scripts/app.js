@@ -33,29 +33,31 @@ Instructions:
    * @return {Promise}    - A Promise that resolves when the XHR succeeds and fails otherwise.
    */
   function get(url) {
-    return new Promise(function(resolve,reject){
-    var req = new XMLHttpRequest();
-    req.open('GET', url);
-    req.onload = function() {
-      if (req.status === 200) {
-        resolve(req.response);
-      } else {
-       reject(Error(req.statusText));
-      }
-    };
-    req.onerror = function() {
-      reject(Error('Network Error'));
-    };
-    req.send();
+    return fetch(url);
+}
+
+/**
+ * performs an XHR for a json and returns a parsed JSON response.
+ * @param {String} url - the Json Url to fetch
+ * @return {Promise} - A promise that passes the parsed JSON esponse
+ */
+function getJSON(url){
+  return get(url).then(function(response){
+    return response.json();
   });
 }
 
   window.addEventListener('WebComponentsReady', function() {
     home = document.querySelector('section[data-route="home"]');
     
-    get('../data/earth-like-results.json')
+    getJSON('../data/earth-like-results.json')
     .then(function(response){
-      addSearchHeader(response);
+      addSearchHeader(response.query);
+      console.log(response);
+      return response.results[1];
+    })
+    .then(function(abcd){
+      console.log(abcd);
     })
     .catch(function(error){
       addSearchHeader('unknown');
